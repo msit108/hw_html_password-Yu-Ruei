@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -6,30 +6,80 @@
 <script src="js/jquery.js"></script>
 <script src="js/seedrandom.js"></script>
 <style>
-#randomTable {
+    body{
+    background-image:url(Image/ATM.png);
+    background-repeat:no-repeat;
+    background-size:100%;
+    opacity:0.6;
+    }
+    #tabel {
+    font-family: DFKai-sb;
+    font-size: 1.0em;
+    color:#000000;  
+    }
+    #randomTable {
+    width:325px;
+    height:350px;
+    border:solid 1px;
+    padding-top:30px;
+    padding-left:75px;
+    background-color:#efe8be;
+    color:black
+    }
+    #randomTable {
     font-family: monospace;
     font-size: 2.0em;
-}
+    }
+    .button {
+    background-color:darkorange;   
+    font-family: DFKai-sb;
+    font-size: 1.0em;
+    color:black
+    }
+    #animation {
+        width:400px;
+        height:100px;
+        background-color:goldenrod;
+        margin-top:10px;
+        font-family:DFKai-sb;
+    }
+    
 </style>
 </head>
 <body>
 
-請輸入亂數表的編號：<input type="text" id="txtSeed" value="1234" />
-&nbsp;<input type="button" id="btnGo" value="產生亂數表" />
 
-<div id="randomTable">
-</div>
+        <div id="tabel" f>
+        請輸入亂數表的編號：<input type="text" id="txtSeed" value="1234" />&nbsp;<br />
+        <input type="button" class="button" id="btnGo1" value="產生亂數表(數字)" />
+        <input type="button" class="button" id="btnGo2" value="產生亂數表(數字,小寫字母)" />
+        <input type="button" class="button" id="btnGo3" value="產生亂數表(數字,大/小寫字母)" />
+        <input type="button" class="button" id="btnClear" value="清除亂數表" />
+        </div>
+
+        <div id="randomTable">
+        </div>
+
+        <div id="animation">
+        <marquee direction="up" height=100px scrollamount="1">
+            使用說明:<br>
+            <P>1. 輸入一組數字可跑出10組亂碼<br></P>
+            <P>2. 有3種模式可供使用<br></P>
+            <P>3. 按下清除鈕可清除亂碼畫面<br></P>
+        </marquee>
+        </div>
 
 <script>
 
-$("#btnGo").click(function () {
+    $(document).ready(function () {
+        $("#btnClear").attr("disabled", true);
+    });
+
+$("#btnGo1").click(function () {
+
     var result = "";
 	// 純數字:
 	var sPool = "0123456789";
-    // 數字+小寫字母: (去除 l, o)
-    // var sPool = "abcdefghijkmnpqrstuvwxyz0123456789";
-    // 數字+大小寫字母: (去除 I, O, l, o)
-    // var sPool = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz0123456789";
 
     Math.seedrandom($("#txtSeed").val()); // 設定亂數種子
 	var iRandom = 0; var ch = "?";
@@ -43,8 +93,56 @@ $("#btnGo").click(function () {
 		result += sLine + "<br>";
 	}
 	$("#randomTable").html(result);
+	$("#btnClear").attr("disabled", false);
 });
 
+$("#btnGo2").click(function () {
+
+    var result = "";
+    // 數字+小寫字母: (去除 l, o)
+    var sPool = "abcdefghijkmnpqrstuvwxyz0123456789";
+
+    Math.seedrandom($("#txtSeed").val()); // 設定亂數種子
+    var iRandom = 0; var ch = "?";
+    for (iRow = 1; iRow <= 10; iRow++) {
+        var sLine = (iRow + 100).toString().substr(1, 2) + ": ";
+        for (iCol = 1; iCol <= 10; iCol++) {
+            iRandom = Math.floor(Math.random() * sPool.length);
+            ch = sPool.substr(iRandom, 1);
+            sLine += ch;
+        }
+        result += sLine + "<br>";
+    }
+    $("#randomTable").html(result);
+    $("#btnClear").attr("disabled", false);
+});
+
+$("#btnGo3").click(function () {
+   
+    var result = "";
+    // 數字+大小寫字母: (去除 I, O, l, o)
+    var sPool = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz0123456789";
+
+    Math.seedrandom($("#txtSeed").val()); // 設定亂數種子
+    var iRandom = 0; var ch = "?";
+    for (iRow = 1; iRow <= 10; iRow++) {
+        var sLine = (iRow + 100).toString().substr(1, 2) + ": ";
+        for (iCol = 1; iCol <= 10; iCol++) {
+            iRandom = Math.floor(Math.random() * sPool.length);
+            ch = sPool.substr(iRandom, 1);
+            sLine += ch;
+        }
+        result += sLine + "<br>";
+    }
+    $("#randomTable").html(result);
+    $("#btnClear").attr("disabled", false);
+});
+
+$("#btnClear").click(function () {
+    var result = "";
+    $("#randomTable").html(result);
+    $("#btnClear").attr("disabled", true);
+});
 </script>
 
 </body>
